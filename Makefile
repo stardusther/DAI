@@ -13,4 +13,4 @@ up: ## Run developer containers (all services)
 	$(DOCKER_DEV) up
 
 p0: ## Run P0
-	docker compose run app python Hola_mundo.py
+	docker compose run app python hola_mundo.py
