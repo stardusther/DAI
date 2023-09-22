@@ -52,3 +52,6 @@ docker_rm_all_containers: docker_stop_all_containers ## Stop and remove all dock
 
 p0: ## Run P0
 	docker compose run app python hola_mundo.py
+
+p1: ## Run P1
+	docker compose run backend python main.py
