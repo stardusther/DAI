@@ -25,16 +25,20 @@ def get_products(api):
     return response
 
 
-def get_image(url):
-    return Image.open(requests.get(url, stream=True).raw)
-
+def get_image(url, id):
+    data = requests.get(url).content
+    path = '../ecommerce/images/img_' + str(id) + '.jpg'
+    file = open(path, 'wb')
+    file.write(data)
+    file.close()
+    return path
 
 def store_products(products):
     """Stores the products in the database"""
     for prod in products:
         try:
             product = ecommerce_models.Product(**prod)  # Get the product JSON
-            product.image = prod.get('image')  # Override Url validator changing url type
+            product.image = get_image(prod.get('image'), prod.get('id')) # Override Url validator changing url type
             product_collection.insert_one(product.model_dump())  # Insert the product
         except Exception as err:
             print('Something went wrong while storing the product -->', str(err))
