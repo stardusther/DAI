@@ -323,3 +323,6 @@ media/
 !.envs/.local/
 
 /testing/jmeter/data/user.csv
+
+
+data/
