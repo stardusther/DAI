@@ -1,4 +1,4 @@
-from pydantic import BaseModel, AnyUrl, FilePath, Field, EmailStr
+from pydantic import BaseModel, AnyUrl, FilePath, Field, EmailStr, field_validator
 from datetime import datetime
 from typing import Any
 
@@ -23,6 +23,13 @@ class Product(BaseModel):
     category: str
     image: AnyUrl | FilePath | None
     rating: Rating
+
+    @field_validator('title')
+    @classmethod
+    def title_must_start_capital(cls, obj: str) -> str:
+        if not obj[0].isupper():  #Check wether the first letter is a capital letter or not
+            raise ValueError('Title must start with a capital letter')
+        return obj.title()
 
 
 class Purchase(BaseModel):

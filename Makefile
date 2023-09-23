@@ -13,28 +13,28 @@ build: ## Build developer containers for services (backend, frontend, ...)
 	$(DOCKER_DEV) pull
 	$(DOCKER_DEV) build
 
-up: ## Run developer containers (all services)
-	$(DOCKER_DEV) up
+up: ## Run developer containers (only mongo as backend isn't runnable)
+	$(DOCKER_DEV) up mongo
 
 down: ## Stop and remove all service containers
 	$(DOCKER_DEV) down --remove-orphans
 
 migrate: ## Run migrate command in api container.
-	$(DOCKER_DEV) run --rm api python manage.py migrate
+	$(DOCKER_DEV) run --rm backend python manage.py migrate
 
 makemigrations: ## Run makemigrations command in api container.
-	$(DOCKER_DEV) run --rm api python manage.py makemigrations
+	$(DOCKER_DEV) run --rm backend python manage.py makemigrations
 	sudo -S chown -R $(runner):$(runner) -Rf sips-api/*
 
 mergemigrations: ## Run make merge migrations command in api container.
-	$(DOCKER_DEV) run  --rm api python manage.py makemigrations --merge
+	$(DOCKER_DEV) run  --rm backend python manage.py makemigrations --merge
 	sudo -S chown -R $(runner):$(runner) -Rf sips-api/*
 
 api-createsuperuser: ## Create new superadmin user.
-	$(DOCKER_DEV) run --rm api python manage.py createsuperuser
+	$(DOCKER_DEV) run --rm backend python manage.py createsuperuser
 
 api-newapp: ## Create new backend app, expects name argument.
-	$(DOCKER_DEV) run --rm api python manage.py startapp '$(name)'
+	$(DOCKER_DEV) run --rm backend python manage.py startapp '$(name)'
 	mkdir ./backend/src/$(name)/tests/
 	touch ./backend/src/$(name)/serializers.py
 	touch ./backend/src/$(name)/tests/test_$(name).py
@@ -55,3 +55,8 @@ p0: ## Run P0
 
 p1: ## Run P1
 	docker compose run backend python main.py
+
+mongodump:  ## Export database
+	$(DOCKER_DEV) up mongo
+	docker compose run mongo mongodump --host=127.0.0.1 --port=27017 --db shop
+
