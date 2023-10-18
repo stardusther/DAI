@@ -24,11 +24,11 @@ migrate: ## Run migrate command in api container.
 
 makemigrations: ## Run makemigrations command in api container.
 	$(DOCKER_DEV) run --rm app python manage.py makemigrations
-	sudo -S chown -R $(runner):$(runner) ecommerce/*
+	sudo -S chown -R $(runner):$(runner) ../DAI/*
 
 mergemigrations: ## Run make merge migrations command in api container.
 	$(DOCKER_DEV) run  --rm backend python manage.py makemigrations --merge
-	sudo -S chown -R $(runner):$(runner) ecommerce/*
+	sudo -S chown -R $(runner):$(runner) ../DAI/*
 
 api-createsuperuser: ## Create new superadmin user.
 	$(DOCKER_DEV) run --rm app python manage.py createsuperuser
