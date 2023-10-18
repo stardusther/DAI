@@ -1,17 +1,14 @@
 # docker-compose.yml
 services:
-  # app:
-  #  image: python:3.11-alpine
-  #  volumes:
-  #    - ./tests:/tests
-  #  working_dir: /tests
-
-  backend:
-    build: ecommerce
+  app:
+    build: .
     volumes:
-      - ./ecommerce:/ecommerce
+      - .:/code
+    ports:
+      - 8000:8000
     depends_on:
       - mongo
+    command: python manage.py runserver 0.0.0.0:8000
 
   mongo:
     image: mongo:6.0
