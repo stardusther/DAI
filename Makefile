@@ -13,7 +13,7 @@ build: ## Build developer containers for services (backend, frontend, ...)
 	$(DOCKER_DEV) pull
 	$(DOCKER_DEV) build
 
-up: ## Run developer containers (only mongo as backend isn't runnable)
+up: ## Run developer containers
 	$(DOCKER_DEV) up
 
 down: ## Stop and remove all service containers

@@ -152,7 +152,7 @@ def get_products():
 
 def get_image(url, id):
     data = requests.get(url).content
-    path = '../ecommerce/images/img_' + str(id) + '.jpg'
+    path = 'ecommerce/images/img_' + str(id) + '.jpg'
     file = open(path, 'wb')
     file.write(data)
     file.close()
@@ -164,16 +164,26 @@ def store_products(products):
     for prod in products:
         try:
             product = ecommerce_models.Product(**prod)  # Get the product JSON
+            print("PRODUCT", product)
             product.image = get_image(prod.get('image'),
                                       prod.get('id'))  # Override Url validator changing url type
             product_collection.insert_one(product.model_dump())  # Insert the product
         except Exception as err:
             print('Something went wrong while storing the product -->', str(err))
             break
-    print("Imported", product_collection.count_documents({}), "products")
+    return HttpResponse("Imported " + str(product_collection.count_documents({})) + " products")
 
 
-def truncate_database():
+def fill_database(request):
+    try:
+        products = get_products()
+        print("PRODS", products)
+        response = store_products(products)
+    except Exception as err:
+        response = print('Something went wrong while filling the database -->', str(err))
+    return HttpResponse(response)
+
+def truncate_database(request):
     """Delete database data"""
     try:
         client.store.products.drop()
@@ -336,5 +346,5 @@ def ejercicio5(request):
 def ejercicio6(request):
     import_products(request)
     bill = aggregate_by_category()
-    print_total_price_by_category(bill)
+    bill = response_to_json(bill)
     return HttpResponse("Total billed by category: " + str(bill))
