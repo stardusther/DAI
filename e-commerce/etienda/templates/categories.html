@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Categorías</h1>
+
+{% for category in categories %}
+    <div class="category-card">
+        <div class="category-card__image">
+        </div>
+        <div class="category-card__content">
+            <h2>{{ category }}</h2>
+            <!-- button to show products of this category -->
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock content %}

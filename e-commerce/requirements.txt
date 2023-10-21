@@ -5,7 +5,10 @@ requests==2.31
 email-validator==2.0
 typing-extensions==4.8
 django==4.2
+
+# P2 specific requirements
 django-compressor
+django-tailwindcss
 
 # User extensions
 pillow==10.0.1

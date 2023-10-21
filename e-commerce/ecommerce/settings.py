@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'etienda',
     'compressor',
+    # 'tailwindcss',
+
 ]
 
 MIDDLEWARE = [
@@ -131,3 +133,11 @@ COMPRESS_ROOT = BASE_DIR / 'static'
 COMPRESS_ENABLED = True
 
 STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+
+# Tailwind CSS settings
+
+# TAILWINDCSS_CLI_FILE = BASE_DIR / 'tailwindcss-linux-x64'
+# TAILWINDCSS_CONFIG_FILE = BASE_DIR / 'tailwind.config.js'
+
+# For file mode
+# TAILWINDCSS_OUTPUT_FILE = 'style.css'
