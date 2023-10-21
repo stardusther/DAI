@@ -16,6 +16,14 @@ store_db = client.store  # Database
 product_collection = store_db.products  # Collection
 api = 'https://fakestoreapi.com/products'  # API to get products
 
+def index(request):
+    # Render index page
+    context = {}
+    return render(request, 'base.html')
+
+class ProductView():
+    model = ecommerce_models.Product
+    #template =
 
 def get_products():
     """Get products from the api
