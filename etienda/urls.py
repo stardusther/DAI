@@ -3,7 +3,7 @@ from django.urls import path
 from etienda import views
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    # path("", views.index, name="index"),
     path("fill_db/", views.fill_database, name="Rellenar base de datos"),
     path("truncate_db/", views.truncate_database, name="Borrar base de datos"),
     path("ejercicio1/", views.ejercicio1, name="Ejercicio 1"),
