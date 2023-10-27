@@ -45,12 +45,6 @@ docker_stop_all_containers: ## Stop all docker running containers
 docker_rm_all_containers: docker_stop_all_containers ## Stop and remove all docker running containers
 	docker container rm $(shell docker container ls -aq)
 
-p0: ## Run P0
-	docker compose run app python hola_mundo.py
-
-p1: ## Run P1
-	docker compose run app python main.py
-
 mongodump:  ## Export database
 	$(DOCKER_DEV) up mongo
 	docker compose run mongo mongodump --host=127.0.0.1 --port=27017 --db shop
