@@ -7,7 +7,16 @@ from ecommerce.functions import product_collection, get_products, store_products
 def index(request):
     """Render index page"""
     context = {}
-    return render(request, 'base.html')
+    return render(request, 'landing.html', context=None)
+
+
+def get_products(category):
+    """Get products from the selected category"""
+    product_collection = filter_product(None, None, None, None, None, category, None, None)
+    products = []
+    for prod in product_collection:
+        products.append(prod)
+    return products
 
 
 def categories(request):  # TODO: migración inicial de datos
@@ -18,18 +27,27 @@ def categories(request):  # TODO: migración inicial de datos
     prod_categories = aggregate_by_category()
     categories = []
     for category in prod_categories:
-        category = category.get('_id')
-        categories.append({'category': category, 'products': filter_product(None, None, None, None, None, category, None, None)})
+        categories.append(category.get('_id'))
 
-    print("CATEGORIES", categories)
     return render(request, 'categories.html', context={'categories': categories})
 
-def men_clothing(request):
+
+def mens_clothing(request):
     """Get all men's clothing"""
     import_products(request)
 
     # Filter products by category 'men's clothing'
-    products = filter_product(None, None, None, None, None, "men's clothing", None, None)
+    products = get_products('men\'s clothing')
+    return render(request, 'products.html', context={'products': products})
+
+
+def womens_clothing(request):
+    """Get all women's clothing"""
+    import_products(request)
+
+    # Filter products by category 'men's clothing'
+    products = get_products('women\'s clothing')
+    return render(request, 'products.html', context={'products': products})
 
 
 def filter_request(request):

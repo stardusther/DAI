@@ -4,22 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e60f7a48-e398-4341-9ad5-03242ed46a6f" name="Changes" comment="Created views, models and urls&#10;&#10;Urls not rendering">
-      <change afterPath="$PROJECT_DIR$/etienda/static/css/base.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/etienda/static/css/categories.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/etienda/static/css/landing.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/etienda/templates/categories.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/src/input.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecommerce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ecommerce/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecommerce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ecommerce/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etienda/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/etienda/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etienda/templates/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/etienda/templates/landing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etienda/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/etienda/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etienda/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/etienda/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    <list default="true" id="e60f7a48-e398-4341-9ad5-03242ed46a6f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/DAI.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DAI.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/ecommerce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/e-commerce/ecommerce/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/etienda/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/e-commerce/etienda/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/etienda/templates/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/e-commerce/etienda/templates/landing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/etienda/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/e-commerce/etienda/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/static/CACHE/css/output.cf1fbffd6909.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/static/src/input.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/static/src/output.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e-commerce/tailwind.config.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,12 +42,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "stardusther"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;stardusther&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -74,6 +73,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "//wsl$/Ubuntu/home/esther/Descargas/DAI",
     "list.type.of.created.stylesheet": "CSS",
@@ -81,6 +81,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
   }

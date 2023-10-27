@@ -7,6 +7,31 @@
     <title>Title</title>
 </head>
 <body>
-    <h1> Hola mundo </h1>
+
+    <!-- Navbar -->
+    <nav class="topnav navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">Etienda DAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"> <span
+                    class="navbar-toggler-icon"></span> </button>
+            <!-- Searchbar -->
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="{% url 'categories' %}">Categorías</a>
+                    <a class="nav-link" href=#>Orders</a>
+                    <a class="nav-link" href=#>Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock content %}
 </body>
 </html>
