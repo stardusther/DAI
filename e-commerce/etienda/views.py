@@ -1,80 +1,54 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from pymongo import MongoClient
-import requests
-
-# Import settings
-from ecommerce import settings
-
-# App imports
-from etienda import models as ecommerce_models
-
-# Database connection
-# https://pymongo.readthedocs.io/en/stable/tutorial.html
-client = MongoClient('mongo', 27017)
-store_db = client.store  # Database
-product_collection = store_db.products  # Collection
-api = 'https://fakestoreapi.com/products'  # API to get products
+from ecommerce.functions import product_collection, get_products, store_products
 
 
 def index(request):
-    return render(request, 'base.html', context=None)
-
-def get_products():
-    """Get products from the api
-
-    https://requests.readthedocs.io/en/latest/
-    """
-    try:
-        response = requests.get(api).json()
-    except Exception as err:
-        print("The API is down. Try again later please")
-        response = None
-    return response
+    """Render index page"""
+    context = {}
+    return render(request, 'base.html')
 
 
-def get_image(url, id):
-    data = requests.get(url).content
-    path = settings.STATIC_ROOT + str(id) + '.jpg'
-    file = open(path, 'wb')
-    file.write(data)
-    file.close()
-    return path
+def categories(request):  # TODO: migración inicial de datos
+    """Render categories page"""
+    import_products(request)
+
+    # Get all categories from the database
+    prod_categories = aggregate_by_category()
+    categories = []
+    for category in prod_categories:
+        category = category.get('_id')
+        categories.append({'category': category, 'products': filter_product(None, None, None, None, None, category, None, None)})
+
+    print("CATEGORIES", categories)
+    return render(request, 'categories.html', context={'categories': categories})
+
+def men_clothing(request):
+    """Get all men's clothing"""
+    import_products(request)
+
+    # Filter products by category 'men's clothing'
+    products = filter_product(None, None, None, None, None, "men's clothing", None, None)
 
 
-def store_products(products):
-    """Stores the products in the database"""
-    for prod in products:
-        try:
-            product = ecommerce_models.Product(**prod)  # Get the product JSON
-            print("PRODUCT", product)
-            product.image = get_image(prod.get('image'),
-                                      prod.get('id'))  # Override Url validator changing url type
-            product_collection.insert_one(product.model_dump())  # Insert the product
-        except Exception as err:
-            print('Something went wrong while storing the product -->', str(err))
-            break
-    return HttpResponse("Imported " + str(product_collection.count_documents({})) + " products")
+def filter_request(request):
+    """Filter products by attribute"""
+    # Get parameters from the request
+    _id = request.GET.get('id', None)
+    title = request.GET.get('title', None)
+    min_price = request.GET.get('min_price', None)
+    max_price = request.GET.get('max_price', None)
+    description = request.GET.get('description', None)
+    category = request.GET.get('category', None)
+    score = request.GET.get('score', None)
+    order = request.GET.get('order', None)
 
+    # Get products from the database
+    products = filter_product(_id, title, min_price, max_price, description, category, score, order)
 
-def fill_database(request):
-    try:
-        products = get_products()
-        print("PRODS", products)
-        response = store_products(products)
-    except Exception as err:
-        response = print('Something went wrong while filling the database -->', str(err))
-    return HttpResponse(response)
-
-def truncate_database(request):
-    """Delete database data"""
-    try:
-        client.store.products.drop()
-    except Exception as err:
-        print('Something went wrong while truncating the database -->', str(err))
-
-    return HttpResponse("Database truncated")
+    # Render products
+    return render(request, 'products.html', context={'products': products})
 
 
 def filter_product(_id, title, min_price, max_price, description, category, score, order):

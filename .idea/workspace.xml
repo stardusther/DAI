@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e60f7a48-e398-4341-9ad5-03242ed46a6f" name="Changes" comment="Created views, models and urls&#10;&#10;Urls not rendering">
+      <change afterPath="$PROJECT_DIR$/etienda/static/css/base.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/etienda/static/css/categories.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/etienda/static/css/landing.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/etienda/templates/categories.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/src/input.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ecommerce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ecommerce/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ecommerce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ecommerce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etienda/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/etienda/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etienda/templates/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/etienda/templates/landing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etienda/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/etienda/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etienda/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/etienda/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Esther García &lt;esther.g.g.01@gmail.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "stardusther"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="c3225d46-926f-4067-a52e-787885879bbd" />
+        <option name="url" value="https://github.com/stardusther/DAI.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2VmzU4dWCRrCHY6xFg9DLDTiygE" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "//wsl$/Ubuntu/home/esther/Descargas/DAI",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="\\wsl$\Ubuntu\home\esther\Descargas\DAI\static" />
+      <recent name="\\wsl$\Ubuntu\home\esther\Descargas\DAI\ecommerce" />
+      <recent name="\\wsl$\Ubuntu\home\esther\Descargas\DAI\etienda" />
+      <recent name="\\wsl$\Ubuntu\home\esther\DAI" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e60f7a48-e398-4341-9ad5-03242ed46a6f" name="Changes" comment="" />
+      <created>1695456056251</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695456056251</updated>
+      <workItem from="1695456058679" duration="16197000" />
+      <workItem from="1695629538531" duration="115000" />
+      <workItem from="1695814023454" duration="9000" />
+      <workItem from="1697651696357" duration="623000" />
+      <workItem from="1697652543504" duration="1776000" />
+      <workItem from="1697654355754" duration="1058000" />
+      <workItem from="1697655442483" duration="53000" />
+      <workItem from="1697655749693" duration="1288000" />
+      <workItem from="1697657068835" duration="636000" />
+      <workItem from="1697657724443" duration="5000" />
+      <workItem from="1697657743268" duration="97000" />
+      <workItem from="1697658090611" duration="162000" />
+      <workItem from="1697658540073" duration="78000" />
+      <workItem from="1697658628350" duration="529000" />
+      <workItem from="1697659360018" duration="1934000" />
+      <workItem from="1697725221798" duration="72000" />
+      <workItem from="1697881765144" duration="10584000" />
+    </task>
+    <task id="LOCAL-00001" summary="Add gitignore">
+      <created>1695456165069</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1695456165069</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add image downloading">
+      <created>1695474172513</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1695474172513</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Start P2">
+      <created>1697652619279</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697652619279</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Update requirements">
+      <created>1697656182710</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1697656182710</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Created eccomerce project and etienda app">
+      <created>1697657042254</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1697657042254</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Created views, models and urls&#10;&#10;Urls not rendering">
+      <option name="closed" value="true" />
+      <created>1697661306593</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697661306593</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/P1" />
+    </ignored-roots>
+    <MESSAGE value="Add gitignore" />
+    <MESSAGE value="Add image downloading" />
+    <MESSAGE value="Start P2" />
+    <MESSAGE value="Update requirements" />
+    <MESSAGE value="Created eccomerce project and etienda app" />
+    <MESSAGE value="Created views, models and urls&#10;&#10;Urls not rendering" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created views, models and urls&#10;&#10;Urls not rendering" />
+  </component>
+</project>
