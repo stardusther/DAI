@@ -3,14 +3,12 @@
 {% load static %}
 
 {% block content %}
-<h1>{{category | upper}}</h1>
 
 <div class="container mt-5">
-    <h1>Listado de Productos</h1>
+    <h1>{{category | capfirst}}</h1>
 
     <div class="row">
         {% for producto in products %}
-        {{ producto}}
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <img src="{% static producto.image %}" class="card-img-top" alt="{{ producto.title }}">
