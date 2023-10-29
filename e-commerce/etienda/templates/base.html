@@ -12,34 +12,69 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="topnav navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">Etienda DAI</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"> <span
-                    class="navbar-toggler-icon"></span> </button>
-            <!-- Searchbar -->
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Buscar</button>
-            </form>
-            <!-- Navbar links -->
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categories
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Category 1</a>
-                            <a class="dropdown-item" href="#">Category 2</a>
-                            <a class="dropdown-item" href="#">Category 3</a>
-                            <!-- Agrega más categorías según sea necesario -->
-                        </div>
-                    <a class="nav-link" href=#>Orders</a>
-                    <a class="nav-link" href=#>Logout</a>
-                </div>
-            </div>
+<!--    <nav class="topnav navbar navbar-expand-lg navbar-light bg-light">-->
+<!--        <div class="container-fluid">-->
+<!--            <a class="navbar-brand" href="{% url 'index' %}">Etienda DAI</a>-->
+<!--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"-->
+<!--                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"> <span-->
+<!--                    class="navbar-toggler-icon"></span> </button>-->
+<!--            &lt;!&ndash; Searchbar &ndash;&gt;-->
+<!--            <form class="d-flex">-->
+<!--                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">-->
+<!--                <button class="btn btn-outline-success" type="submit">Buscar</button>-->
+<!--            </form>-->
+<!--            &lt;!&ndash; Navbar links &ndash;&gt;-->
+<!--            <-->
+<!--            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">-->
+<!--                <div class="navbar-nav">-->
+<!--                    <li class="nav-item dropdown">-->
+<!--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                            Categories-->
+<!--                        </a>-->
+<!--                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                            <a class="dropdown-item" href="#">Category 1</a>-->
+<!--                            <a class="dropdown-item" href="#">Category 2</a>-->
+<!--                            <a class="dropdown-item" href="#">Category 3</a>-->
+<!--                            &lt;!&ndash; Agrega más categorías según sea necesario &ndash;&gt;-->
+<!--                        </div>-->
+
+<!--                </div>-->
+<!--                <a class="nav-link" href=#>Orders</a>-->
+<!--                <a class="nav-link" href=#>Logout</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'index' %}">Etienda DAI</a>
+        <!-- Searchbar -->
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Category 1</a>
+                        <a class="dropdown-item" href="#">Category 2</a>
+                        <a class="dropdown-item" href="#">Category 3</a>
+                        <!-- Agrega más categorías según sea necesario -->
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
         </div>
     </nav>
 
