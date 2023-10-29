@@ -13,22 +13,22 @@ def index(request):
 
 def category(request, category):
     """Get products from the selected category"""
-    product_collection = filter_product(None, None, None, None, None, category, None, None)
+    product_collection = filter_product(None, None, None, None,
+                                        None, category, None, None)
     products = []
     for prod in product_collection:
         products.append(prod)
-    return render(request, 'products.html', context={'categorias': get_categories(),'category': category, 'products': products})
+    return render(request, 'products.html', context={'categorias': get_categories(),
+                                                     'category': category, 'products': products})
 
 
 def get_categories():  # TODO: migración inicial de datos
     """Render categories page"""
     # Get all categories from the database
     prod_categories = aggregate_by_category()
-    print("prod_categories---------->", prod_categories)
     categories = []
     for category in prod_categories:
         categories.append(category.get('_id'))
-    print("categorias---------->", categories)
     return categories
 
 

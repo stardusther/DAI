@@ -19,7 +19,14 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from ecommerce import functions as ecommerce_functions
+
 urlpatterns = [
     path('etienda/', include('etienda.urls')),
+    path("dump_database/", ecommerce_functions.truncate_database, name="dump_database"),
+    path("fill_database/", ecommerce_functions.import_products, name="fill_database"),
     path('admin/', admin.site.urls),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
