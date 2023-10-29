@@ -40,7 +40,6 @@ def import_products(request):
 
 def store_products(products):
     """Stores the products in the database"""
-    print("PRODS", products)
     for prod in products:
         try:
             product = ecommerce_models.Product(**prod)  # Get the product JSON

@@ -3,16 +3,37 @@
 {% load static %}
 
 {% block content %}
-{% for product in products %}
-    <div class="product-card">
-        <div class="product-card__image">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-        </div>
-        <div class="product-card__content">
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.description }}</p>
-            <p>{{ product.price }}</p>
-        </div>
+<h1>{{category | upper}}</h1>
+<!--{% for product in products %}-->
+<!--    <div class="product-card">-->
+<!--        <div class="product-card__image">-->
+<!--            <img src="{{ product.image.url }}" alt="{{ product.name }}">-->
+<!--        </div>-->
+<!--        <div class="product-card__content">-->
+<!--            <h2>{{ product.title }}</h2>-->
+<!--            <p>{{ product.description }}</p>-->
+<!--            <p>{{ product.price }}</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--{% endfor %}-->
+
+<div class="container mt-5">
+    <h1>Listado de Productos</h1>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ producto.imagen_url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">Precio: {{ product.price }}€</p>
+                        <a href="#" class="btn btn-primary">Detalles</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-{% endfor %}
+</div>
 {% endblock content %}
