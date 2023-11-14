@@ -1,7 +1,13 @@
+import os
+from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse
+from .forms import ProductForm
+from django.contrib import messages
 
+# App imports
 from ecommerce import functions as ecommerce_functions
+from etienda import models as etienda_models
 
 
 def index(request):
@@ -35,14 +41,6 @@ def get_categories():  # TODO: migración inicial de datos
 def filter_request(request):
     """Filter products by attribute"""
     # # Get parameters from the request
-    # _id = request.GET.get('id', None)
-    # title = request.GET.get('title', None)
-    # min_price = request.GET.get('min_price', None)
-    # max_price = request.GET.get('max_price', None)
-    # description = request.GET.get('description', None)
-    # category = request.GET.get('category', None)
-    # score = request.GET.get('score', None)
-    # order = request.GET.get('order', None)
     search_term = request.GET.get('search_term', None)
 
     # Get products from the database (filtered by description
@@ -100,7 +98,8 @@ def filter_product(_id, title, min_price, max_price, description, category, scor
     if category is not None:  # Case-insensitive
         query.append({'category': {'$regex': f'^{category}', "$options": 'i'}})
 
-    result = ecommerce_functions.get_product_collection().find({'$and': query})  # Operator 'and' needed in case there is a
+    result = ecommerce_functions.get_product_collection().find(
+        {'$and': query})  # Operator 'and' needed in case there is a
     # query over the same field (p.e: price)
 
     if order is not None:  # Ordering the result
@@ -124,6 +123,50 @@ def aggregate_by_category():
     return ecommerce_functions.get_product_collection().aggregate(pipeline)
 
 
+def create_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
 
+        if form.is_valid():
+            # Get the data from the form
+            title = form.cleaned_data['title']
+            price = form.cleaned_data['price']
+            description = form.cleaned_data['description']
+            category = form.cleaned_data['category']
 
+            # Get uploaded image
+            image = request.FILES.get('image', None)
+            # Store in static folder
+            if image:
+                file_path = os.path.join(settings.MEDIA_ROOT, image.name)
+                with open(file_path, 'wb+') as destination:
+                    for chunk in image.chunks():
+                        destination.write(chunk)
 
+                # Obtener la URL de la imagen
+                image_url = settings.MEDIA_ROOT + image.name
+            else:
+                image_url = None
+
+            # Set product_data
+            product_data = {
+                'title': title,
+                'price': float(price),
+                'description': description,
+                'category': category,
+                'image': image_url,
+                'rating': {
+                    'rate': 0.0,
+                    'count': 1
+                }
+            }
+
+            # Create the product
+            ecommerce_functions.get_product_collection().insert_one(product_data)
+
+            # Redirect to index page and send a success message
+            messages.success(request, 'The product has been successfully created')
+            return render(request, 'landing.html', context={'categorias': get_categories()})
+    else:  # Render the form
+        form = ProductForm()
+    return render(request, 'product_form.html', {'form': form, 'categorias': get_categories()})
