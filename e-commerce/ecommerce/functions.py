@@ -9,36 +9,52 @@ from django.http import HttpResponse
 from etienda import models as ecommerce_models
 from django.conf import settings
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def get_product_collection():
     """Get the product collection"""
     # Database connection
     # https://pymongo.readthedocs.io/en/stable/tutorial.html
-    client = MongoClient('mongo', 27017)
-    store_db = client.store  # Database
-    return store_db.products  # Collection
+    try:
+        client = MongoClient('mongo', 27017)
+        store_db = client.store  # Database
+        return store_db.products  # Collection
+    except Exception as err:
+        logger.error(f'Something went wrong while connecting to the database: {err}')
+        raise Exception('Something went wrong while connecting to the database')
 
 
 def get_image(url, id):
     """Get image from url and store it in the static folder"""
-    data = requests.get(url).content
-    filename = f'img_{id}.jpg'
-    path = os.path.join(settings.STATIC_ROOT, 'img', filename)
-    with open(path, 'wb') as file:
-        file.write(data)
-    return os.path.join('img', filename)
+    try:
+        data = requests.get(url).content
+        filename = f'img_{id}.jpg'
+        path = os.path.join(settings.STATIC_ROOT, 'img', filename)
+        with open(path, 'wb') as file:
+            file.write(data)
+        return os.path.join('img', filename)
+    except Exception as err:
+        logger.error(f'Something went wrong while getting the image: {err}')
+        return None
 
 
 def import_products(request):
     """Import products from the api if the database is empty"""
     product_collection = get_product_collection()
-    if product_collection.count_documents({}) == 0:
-        products = get_products()
-        store_products(products)
-        return HttpResponse("Imported " + str(get_product_collection().count_documents({}))
-                        + " products")
-    else:
-        return HttpResponse("Database is already populated")
+    try:
+        if product_collection.count_documents({}) == 0:
+            products = get_products()
+            store_products(products)
+            return HttpResponse("Imported " + str(get_product_collection().count_documents({}))
+                                + " products")
+        else:
+            return HttpResponse("Database is already populated")
+    except Exception as err:
+        logger.error(f'Something went wrong while importing products: {err}')
+        return HttpResponse("Something went wrong while importing products")
 
 
 def store_products(products):
@@ -48,10 +64,11 @@ def store_products(products):
             product = ecommerce_models.Product(**prod)  # Get the product JSON
             product.image = get_image(prod.get('image'),
                                       prod.get('id'))  # Override Url validator changing url type
-            print("PRODUCT:", product.title, "\tCategory:", product.category, "\tImage:", product.image)
+            print("PRODUCT:", product.title, "\tCategory:", product.category, "\tImage:",
+                  product.image)
             get_product_collection().insert_one(product.model_dump())  # Insert the product
         except Exception as err:
-            print('Something went wrong while storing the product -->', str(err))
+            logger.error(f'Something went wrong while storing products: {err}')
             break
     return HttpResponse("Imported " + str(get_product_collection().count_documents({}))
                         + " products")
@@ -116,4 +133,3 @@ def print_products(products, small):
                   prod.get('title'),
                   "\t[" + str(prod.get('price')) + "€]",
                   "\nDESCRIPTION:", prod.get('description'))
-

@@ -22,11 +22,14 @@ from django.conf.urls.static import static
 from ecommerce import functions as ecommerce_functions
 
 urlpatterns = [
-    path('etienda/', include('etienda.urls')),
+    path('etienda/', include('etienda.urls'), name="etienda"),
     path("dump_database/", ecommerce_functions.truncate_database, name="dump_database"),
     path("fill_database/", ecommerce_functions.import_products, name="fill_database"),
     path('admin/', admin.site.urls),
+    # path("user/", include("django.contrib.auth.urls")),  # Auth URLS
+    path('accounts/', include('allauth.urls')),  # Allouth URLS
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

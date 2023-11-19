@@ -4,10 +4,15 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import ProductForm
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 
 # App imports
 from ecommerce import functions as ecommerce_functions
 from etienda import models as etienda_models
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -25,7 +30,7 @@ def category(request, category):
     for prod in product_collection:
         products.append(prod)
     return render(request, 'products.html', context={'categorias': get_categories(),
-                                                     'category': category, 'products': products})
+                                                     'category-0': category, 'products': products})
 
 
 def get_categories():  # TODO: migración inicial de datos
@@ -98,9 +103,13 @@ def filter_product(_id, title, min_price, max_price, description, category, scor
     if category is not None:  # Case-insensitive
         query.append({'category': {'$regex': f'^{category}', "$options": 'i'}})
 
-    result = ecommerce_functions.get_product_collection().find(
-        {'$and': query})  # Operator 'and' needed in case there is a
-    # query over the same field (p.e: price)
+    try:
+        # Operator 'and' needed in case there is a query over the same field (p.e: price)
+        result = ecommerce_functions.get_product_collection().find(
+            {'$and': query})
+    except Exception as e:
+        logger.error(f'Error filtering products: {e}')
+        return HttpResponse('Error filtering products', status=500)
 
     if order is not None:  # Ordering the result
         result = result.sort(order)
@@ -123,6 +132,7 @@ def aggregate_by_category():
     return ecommerce_functions.get_product_collection().aggregate(pipeline)
 
 
+@staff_member_required  # Only for staff (superusers are considered staff)
 def create_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
@@ -157,16 +167,22 @@ def create_product(request):
                 'image': image_url,
                 'rating': {
                     'rate': 0.0,
-                    'count': 1
+                    'count': 0
                 }
             }
 
             # Create the product
-            ecommerce_functions.get_product_collection().insert_one(product_data)
+            try:
+                ecommerce_functions.get_product_collection().insert_one(product_data)
+            except Exception as e:
+                logger.error(f'Error creating product: {e}')
+                messages.error(request, 'There was an error creating the product')
+                return render(request, 'product_form.html',
+                              {'form': form, 'categorias': get_categories()})
 
             # Redirect to index page and send a success message
             messages.success(request, 'The product has been successfully created')
-            return render(request, 'landing.html', context={'categorias': get_categories()})
+            return render(request, 'landing.html', {'categorias': get_categories()})
     else:  # Render the form
         form = ProductForm()
     return render(request, 'product_form.html', {'form': form, 'categorias': get_categories()})

@@ -12,7 +12,7 @@ from typing import Any
 class Rating(BaseModel):
     """Model to store the score and number of ratings a product has"""
     rate: float = Field(ge=0., lt=5.)
-    count: int = Field(ge=1)
+    count: int = Field(ge=0)
 
 
 class Product(BaseModel):
