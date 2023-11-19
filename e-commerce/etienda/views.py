@@ -5,10 +5,10 @@ from django.http import HttpResponse
 from .forms import ProductForm
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from random import sample
 
 # App imports
 from ecommerce import functions as ecommerce_functions
-from etienda import models as etienda_models
 
 import logging
 
@@ -18,8 +18,30 @@ logger = logging.getLogger(__name__)
 def index(request):
     """Render index page"""
     ecommerce_functions.import_products(None)
+    products = random_products()
 
-    return render(request, 'landing.html', context={'categorias': get_categories()})
+    return render(request, 'landing.html',
+                  context={'categorias': get_categories(), 'products': products})
+
+
+def random_products():
+    """Get random set of 6 products from the database"""
+    products = filter_product(
+        None, None, None, None, None, None,
+        None, None
+    )
+
+    try:
+        # Get a list of all products
+        filtered_product_list = list(products)
+
+        # Get 6 random products
+        six_random_products = sample(filtered_product_list, 6)
+
+        return six_random_products
+    except Exception as e:
+        logger.error(f'Error getting random products: {e}')
+        return []
 
 
 def category(request, category):
@@ -80,40 +102,39 @@ def filter_product(_id, title, min_price, max_price, description, category, scor
     :param order:
 
     """
-    query = []
+
+    query = {}
 
     if _id is not None:
-        query.append({"id": _id})
+        query["id"] = _id
 
     if title is not None:
-        query.append({"title": title})
+        query["title"] = title
 
     if min_price is not None:
-        query.append({"price": {"$gte": min_price}})
+        query["price"] = {"$gte": min_price}
 
     if max_price is not None:
-        query.append({"price": {"$lte": max_price}})
+        query["price"] = query.get("price", {})
+        query["price"]["$lte"] = max_price
 
     if score is not None:
-        query.append({"rating.rate": {"$gte": score}})
+        query["rating.rate"] = {"$gte": score}
 
-    if description is not None:  # Case-insensitive
-        query.append({'description': {'$regex': description, "$options": 'i'}})
+    if description is not None:
+        query["description"] = {'$regex': description, "$options": 'i'}
 
-    if category is not None:  # Case-insensitive
-        query.append({'category': {'$regex': f'^{category}', "$options": 'i'}})
+    if category is not None:
+        query["category"] = {'$regex': f'^{category}', "$options": 'i'}
 
     try:
-        # Operator 'and' needed in case there is a query over the same field (p.e: price)
-        result = ecommerce_functions.get_product_collection().find(
-            {'$and': query})
+        result = ecommerce_functions.get_product_collection().find(query)
+        if order is not None:
+            result = result.sort(order)
+        return result
     except Exception as e:
         logger.error(f'Error filtering products: {e}')
-        return HttpResponse('Error filtering products', status=500)
-
-    if order is not None:  # Ordering the result
-        result = result.sort(order)
-    return result
+        return []
 
 
 def aggregate_by_product():

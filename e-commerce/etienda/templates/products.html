@@ -9,17 +9,27 @@
 
     <div class="row">
         {% for producto in products %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{% static producto.image %}" class="card-img-top" alt="{{ producto.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ producto.title }}</h5>
-                        <p class="card-text">Valoración: {{ producto.rating.rate }} <span class="star">&#9733;</span></p>
-                        <p class="card-text">Precio: {{ producto.price }}€</p>
-                        <p class="card-text">{{ producto.description }}</p>
-                    </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <p>Imagen: {{producto.image.url}}</p>
+                    <!-- Si se encuentra la imagen en media, la muestra -->
+                    {% if producto.image %}
+                    <img src="{{ producto.image.url }}" class="card-img-top"
+                         alt="{{ producto.title }}">
+                    {% else %}
+                    <!-- Si no se encuentra la imagen en media, busca en static -->
+                    <img src="{% static producto.image %}" class="card-img-top"
+                         alt="{{ producto.title }}">
+                    {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ producto.title }}</h5>
+                    <p class="card-text">Rating: {{ producto.rating.rate }} <span class="star">&#9733;</span>
+                    </p>
+                    <p class="card-text">Price: {{ producto.price }}€</p>
+                    <p class="card-text">{{ producto.description }}</p>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
 </div>
