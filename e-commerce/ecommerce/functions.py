@@ -29,15 +29,18 @@ def get_product_collection():
 
 def get_image(url, id):
     """Get image from url and store it in the static folder"""
+    logger.debug('Getting image')
     try:
         data = requests.get(url).content
         filename = f'img_{id}.jpg'
-        path = os.path.join(settings.STATIC_ROOT, 'img', filename)
+        #path = os.path.join('../e-commerce/', settings.STATIC_URL, 'img', filename)
+        path = f'../e-commerce{settings.STATIC_URL}img/{filename}'
+        logger.debug(f'Image path: {path}')
         with open(path, 'wb') as file:
             file.write(data)
         return os.path.join('img', filename)
     except Exception as err:
-        logger.error(f'Something went wrong while getting the image: {err}')
+        logger.error(f'Something went wrong while getting the image: {err}, filepath {path}')
         return None
 
 

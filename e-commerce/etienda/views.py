@@ -1,7 +1,6 @@
 import os
 from django.conf import settings
 from django.shortcuts import render
-from django.http import HttpResponse
 from .forms import ProductForm
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -20,7 +19,7 @@ def index(request):
     ecommerce_functions.import_products(None)
     products = random_products()
 
-    return render(request, 'landing.html',
+    return render(request, 'products.html',
                   context={'categorias': get_categories(), 'products': products})
 
 
@@ -31,6 +30,8 @@ def random_products():
         None, None
     )
 
+    random_products = []
+
     try:
         # Get a list of all products
         filtered_product_list = list(products)
@@ -38,10 +39,28 @@ def random_products():
         # Get 6 random products
         six_random_products = sample(filtered_product_list, 6)
 
-        return six_random_products
+        # Update is_media attribute
+        for prod in six_random_products:
+            prod = set_is_media(prod)
+            random_products.append(prod)
+
+        return random_products
     except Exception as e:
         logger.error(f'Error getting random products: {e}')
         return []
+
+
+def set_is_media(prod):
+    """Set is_media attribute to True if the product has an image"""
+    if prod.get('image', None) is not None and prod['image']:  # Verify if the product has an image
+        if prod['image'].startswith(settings.MEDIA_URL):  # Verify if the image is in the media folder
+            prod['is_media'] = True
+        else:
+            prod['is_media'] = False
+    else:  # If the product doesn't have an image
+        prod['is_media'] = False
+
+    return prod
 
 
 def category(request, category):
@@ -50,9 +69,11 @@ def category(request, category):
                                         None, category, None, None)
     products = []
     for prod in product_collection:
+        logger.debug(f'Product: {prod}')
+        prod = set_is_media(prod)
         products.append(prod)
     return render(request, 'products.html', context={'categorias': get_categories(),
-                                                     'category-0': category, 'products': products})
+                                                     'category': category, 'products': products})
 
 
 def get_categories():  # TODO: migración inicial de datos
@@ -80,8 +101,10 @@ def filter_request(request):
     # Merge both lists
     products = []
     for prod in products_desc:
+        prod = set_is_media(prod)
         products.append(prod)
     for prod in products_title:
+        prod = set_is_media(prod)
         if prod not in products:
             products.append(prod)
 
@@ -109,14 +132,13 @@ def filter_product(_id, title, min_price, max_price, description, category, scor
         query["id"] = _id
 
     if title is not None:
-        query["title"] = title
+        query["title"] = {'$regex': title, "$options": 'i'}
 
     if min_price is not None:
         query["price"] = {"$gte": min_price}
 
     if max_price is not None:
-        query["price"] = query.get("price", {})
-        query["price"]["$lte"] = max_price
+        query["price"] = {"$lte": max_price}
 
     if score is not None:
         query["rating.rate"] = {"$gte": score}
@@ -174,10 +196,12 @@ def create_product(request):
                     for chunk in image.chunks():
                         destination.write(chunk)
 
-                # Obtener la URL de la imagen
-                image_url = settings.MEDIA_ROOT + image.name
+                # Get image URL
+                image_url = settings.MEDIA_URL + image.name
             else:
                 image_url = None
+
+            logger.info(f'Created prod\'s  image url: {image_url}')
 
             # Set product_data
             product_data = {
@@ -203,7 +227,7 @@ def create_product(request):
 
             # Redirect to index page and send a success message
             messages.success(request, 'The product has been successfully created')
-            return render(request, 'landing.html', {'categorias': get_categories()})
+            return index(request)  # Redirect to index page
     else:  # Render the form
         form = ProductForm()
     return render(request, 'product_form.html', {'form': form, 'categorias': get_categories()})
