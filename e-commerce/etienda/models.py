@@ -1,5 +1,5 @@
 # Create your models here.
-from pydantic import BaseModel, AnyUrl, FilePath, Field, EmailStr, field_validator
+from pydantic import BaseModel, AnyUrl, FilePath, Field, EmailStr, validator
 from datetime import datetime
 from typing import Any
 
@@ -22,10 +22,10 @@ class Product(BaseModel):
     price: float
     description: str
     category: str
-    image: AnyUrl | FilePath | None
+    image: str | None
     rating: Rating
 
-    @field_validator('title')
+    @validator('title')
     @classmethod
     def title_must_start_capital(cls, obj: str) -> str:
         if not obj[0].isupper():  #Check wether the first letter is a capital letter or not

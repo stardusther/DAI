@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 
 from ecommerce import functions as ecommerce_functions
 from ecommerce import views as ecommerce_views
+from etienda.api import api
+
 
 urlpatterns = [
     path('', ecommerce_views.redirect_to_store, name='root_redirect'),
@@ -32,6 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path("user/", include("django.contrib.auth.urls")),  # Auth URLS
     path('accounts/', include('allauth.urls')),  # Allouth URLS
+    path("api/", api.urls),  # Api URLS
 ]
 
 if settings.DEBUG:

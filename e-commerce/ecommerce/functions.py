@@ -136,3 +136,5 @@ def print_products(products, small):
                   prod.get('title'),
                   "\t[" + str(prod.get('price')) + "€]",
                   "\nDESCRIPTION:", prod.get('description'))
+
+
