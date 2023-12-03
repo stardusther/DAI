@@ -326,3 +326,16 @@ media/
 
 
 data/
+
+*.wt
+
+*.log
+*.log.*
+*.lock
+*.turtle
+*.bson
+*.sqlite3
+*.sqlite
+*.db
+*.db-journal
+*.sql
