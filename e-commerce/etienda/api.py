@@ -9,19 +9,23 @@ from ninja.security import django_auth, django_auth_superuser
 from etienda import views as etienda_views
 from etienda import serializers as etienda_serializers
 from ecommerce import functions as ecommerce_functions
+from ecommerce import views as ecommerce_views
 
 api = NinjaExtraAPI(csrf=True)
 logger = logging.getLogger(__name__)
 
 
 # function based definition
-# @api.post("/login", tags=['Auth'])
-# def login(request, username: str, password: str):
-#     """Login"""
-#     return
-# # @api.get("/add", tags=['Math'])
-# # def add(request, a: int, b: int):
-# #     return {"result": a + b}
+@api.post("/login", tags=['Auth'])
+def login(request, username: str, password: str):
+    """Login"""
+    data = {'username': username, 'password': password}
+    request.data = data
+    response = ecommerce_views.login(request)
+    logger.debug(f'Login response: {response}')
+    # token = response.json().get('token')
+    return {'token': 0}
+
 
 # class based definition
 @api_controller('/', tags=['Products'], permissions=[])
@@ -61,7 +65,7 @@ class ProductAPI:
             return {"message": "Products not found"}, 404
 
     @http_post("/product",
-               auth=django_auth_superuser,
+               # auth=django_auth_superuser,
                response={200: etienda_serializers.ProductSerializer,
                          500: etienda_serializers.MessageSerializer}
                )
@@ -81,7 +85,7 @@ class ProductAPI:
             return {"message": "Product not created"}
 
     @http_put("/product/{id}",
-              auth=django_auth_superuser,
+              # auth=django_auth_superuser,
               response={200: etienda_serializers.ProductSerializer,
                         500: etienda_serializers.MessageSerializer})
     def update_product(self, request, id: str,
@@ -105,7 +109,7 @@ class ProductAPI:
             return {"message": "Product not found"}, 404
 
     @http_delete("/product/{id}",
-                 auth=django_auth_superuser,
+                 # auth=django_auth_superuser,
                  response={200: etienda_serializers.MessageSerializer,
                            500: etienda_serializers.MessageSerializer})
     def delete_product(self, request, id: str):
