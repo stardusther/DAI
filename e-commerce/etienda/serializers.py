@@ -1,5 +1,5 @@
 from ninja import Schema
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from bson.objectid import ObjectId
 
 
@@ -7,6 +7,11 @@ from bson.objectid import ObjectId
 class RateSerializer(BaseModel):
     rate: float
     count: int
+    # user_rate: int
+
+    # @validator('user_rate', pre=True, always=True)
+    # def set_default_user_rate(cls, v):
+    #     return v if v is not None else 0
 
 
 class ProductSerializer(BaseModel):  # sirve para validar y para documentación

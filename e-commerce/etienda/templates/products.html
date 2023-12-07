@@ -2,6 +2,12 @@
 
 {% load static %}
 
+{% block header %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="{% static 'css/product.css' %}" rel="stylesheet">
+<script type="text/javascript" src="{% static 'scripts/products.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
 {% if messages %}
@@ -20,7 +26,7 @@
     <div class="row">
         {% for producto in products %}
         <div class="col-md-4 mb-4">
-            <div class="card">
+            <div class="product card" data-product-id="{{producto.id}}">
                 <!-- Si el producto tiene imagen -->
                 {% if producto.image %}
                 <!-- Si la imagen se encuentra en media, la muestra -->
@@ -39,8 +45,10 @@
 
                 <div class="card-body">
                     <h5 class="card-title">{{ producto.title }}</h5>
-                    <p class="card-text">Rating: {{ producto.rating.rate }} <span class="star">&#9733;</span>
-                    </p>
+                    <p class="card-text">Rating: <span class="rating"></span> ({{ producto.rating.rate }} - {{producto.rating.count}} votes)</p>
+                    {% if user.is_authenticated %}
+                        <p class="card-text">Your rating: <span class="user-rating"></span></p>
+                    {% endif %}
                     <p class="card-text">Price: {{ producto.price }}€</p>
                     <p class="card-text">{{ producto.description }}</p>
                 </div>

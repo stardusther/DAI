@@ -13,6 +13,7 @@ class Rating(BaseModel):
     """Model to store the score and number of ratings a product has"""
     rate: float = Field(ge=0., lt=5.)
     count: int = Field(ge=0)
+    user_rate: int = Field(default=0, ge=0, lt=5)
 
 
 class Product(BaseModel):

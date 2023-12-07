@@ -42,6 +42,7 @@ def random_products():
         # Update is_media attribute
         for prod in six_random_products:
             prod = set_is_media(prod)
+            prod['id'] = prod['_id']
             random_products.append(prod)
 
         return random_products
@@ -71,6 +72,7 @@ def category(request, category):
     for prod in product_collection:
         logger.debug(f'Product: {prod}')
         prod = set_is_media(prod)
+        prod['id'] = prod['_id']
         products.append(prod)
     return render(request, 'products.html', context={'categorias': get_categories(),
                                                      'category': category, 'products': products})
@@ -102,9 +104,12 @@ def filter_request(request):
     products = []
     for prod in products_desc:
         prod = set_is_media(prod)
+        prod['id'] = prod['_id']
         products.append(prod)
+
     for prod in products_title:
         prod = set_is_media(prod)
+        prod['id'] = prod['_id']
         if prod not in products:
             products.append(prod)
 
