@@ -1,3 +1,5 @@
-.fa-star {
-      color: #ba97e7;
+.fa-star,
+.fa-star-o,
+.fa-star-half-o {
+    color: #4ea9d3;
 }

@@ -109,7 +109,7 @@ class ProductAPI:
             return {"message": "Product not found"}, 404
 
     @http_delete("/product/{id}",
-                 # auth=django_auth_superuser,
+                 auth=django_auth,
                  response={200: etienda_serializers.MessageSerializer,
                            500: etienda_serializers.MessageSerializer})
     def delete_product(self, request, id: str):
@@ -121,6 +121,41 @@ class ProductAPI:
         except Exception as err:
             logger.error(f'Something went wrong while deleting the product: {err}')
             return {"message": "Product deletion failed"}
+
+    @http_patch("/product/{id}/rating", response={200: etienda_serializers.MessageSerializer,
+                                                  404: etienda_serializers.MessageSerializer})
+    def update_product_rating(self, request, id: str, rating: int):
+        """Update the rating of a product"""
+        try:
+            db_product = ecommerce_functions.get_product_collection().find_one(
+                {"_id": ObjectId(id)})
+            logger.debug(f'In UPDATE Product: {db_product}')
+
+            if not db_product:
+                logger.error(f'Product not found')
+                return {"message": "Product not found"}, 404
+
+            old_rating = db_product.get('rating', {})
+            old_count = old_rating.get('count', 0)
+            old_rate = old_rating.get('rate', 0.0)
+            user_rate = rating
+
+            # Update the rating data
+            new_count = old_count + 1
+            new_rate = round(((old_rate * old_count) + user_rate) / new_count, 1)
+
+            # Update the product's rating in the database
+            updated_product = ecommerce_functions.get_product_collection().update_one(
+                {"_id": ObjectId(id)},
+                {"$set": {"rating.count": new_count, "rating.rate": new_rate, "rating.user_rate": user_rate}}
+            )
+
+            if updated_product.modified_count > 0:
+                logger.debug(f'Updated rating of product: {id}')
+                return {"message": "Product rating updated"}
+        except Exception as err:
+            logger.error(f'Something went wrong while updating the product rating: {err}')
+            return {"message": "Product rating update failed"}, 500
 
 
 api.register_controllers(
