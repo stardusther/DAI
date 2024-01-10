@@ -13,7 +13,6 @@ class Rating(BaseModel):
     """Model to store the score and number of ratings a product has"""
     rate: float = Field(ge=0., lt=5.)
     count: int = Field(ge=0)
-    user_rate: int = Field(default=0, ge=0, lt=5)
 
 
 class Product(BaseModel):
@@ -29,7 +28,7 @@ class Product(BaseModel):
     @validator('title')
     @classmethod
     def title_must_start_capital(cls, obj: str) -> str:
-        if not obj[0].isupper():  #Check wether the first letter is a capital letter or not
+        if not obj[0].isupper():  # Check wether the first letter is a capital letter or not
             raise ValueError('Title must start with a capital letter')
         return obj.title()
 
@@ -40,3 +39,9 @@ class Purchase(BaseModel):
     user: EmailStr
     date: datetime
     products: list
+
+
+class UserRating(BaseModel):
+    user_rate: int = Field(default=0, ge=0, lt=5)
+    product: Product
+    

@@ -6,7 +6,6 @@ from bson.objectid import ObjectId
 from ninja.security import django_auth, django_auth_superuser
 
 # App imports
-from etienda import views as etienda_views
 from etienda import serializers as etienda_serializers
 from ecommerce import functions as ecommerce_functions
 from ecommerce import views as ecommerce_views
@@ -74,6 +73,7 @@ class ProductAPI:
 
         try:
             # Turn id into a string for mongodb to accept it
+            
             inserted = ecommerce_functions.get_product_collection().insert_one(product.dict())
             logger.debug(f'Creating product: {inserted.inserted_id}')
             db_product = ecommerce_functions.get_product_collection().find_one(

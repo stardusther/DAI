@@ -8,6 +8,7 @@ typing-extensions==4.8
 # Django ---------------------------
 django==4.2
 django-ninja-extra==0.19.8
+django-cors-headers==3.7.0
 
 # Rest framework -------------------
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework

@@ -19,6 +19,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+# App imports
 from ecommerce import functions as ecommerce_functions
 from ecommerce import views as ecommerce_views
 from etienda.api import api
@@ -30,10 +31,8 @@ urlpatterns = [
     path('etienda/', include('etienda.urls'), name="etienda"),
     path("dump_database/", ecommerce_functions.truncate_database, name="dump_database"),
     path("fill_database/", ecommerce_functions.import_products, name="fill_database"),
-
     path('admin/', admin.site.urls),
     # path("user/", include("django.contrib.auth.urls")),  # Auth URLS
-    path('accounts/', include('allauth.urls')),  # Allouth URLS
     path("api/", api.urls),  # Api URLS
 ]
 
