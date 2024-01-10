@@ -1,0 +1,7 @@
+.navbar {
+  width: 100%; /* Hacer que la barra de navegación ocupe todo el ancho */
+}
+
+#root{
+  width: 100%;
+}

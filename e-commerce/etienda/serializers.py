@@ -41,3 +41,10 @@ class CreateProductSerializer(BaseModel):
 
 class MessageSerializer(Schema):
     message: str
+
+
+class ProductResult(Schema):
+    id: str
+    title: str
+    description: str
+    category: str

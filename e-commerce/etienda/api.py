@@ -2,8 +2,11 @@ import logging
 
 from ninja_extra import NinjaExtraAPI, api_controller, http_get, http_post, http_put, http_delete, \
     http_patch
+
 from bson.objectid import ObjectId
 from ninja.security import django_auth, django_auth_superuser
+from typing import List
+from bson.json_util import dumps
 
 # App imports
 from etienda import serializers as etienda_serializers
@@ -47,6 +50,51 @@ class ProductAPI:
             logger.error(f'Something went wrong while getting the product: {err}')
             return {"message": "Product not created"}, 404
 
+    # Filter products
+    @api.get("/product/filter", response={200: List[etienda_serializers.ProductResult], 404: dict})
+    def filter_product(request, search_term: str = None):
+        try:
+            # Lógica para filtrar productos
+            products_name = ecommerce_functions.get_product_collection().find({
+                "title": {"$regex": search_term, "$options": "i"}
+            })
+
+            products_description = ecommerce_functions.get_product_collection().find({
+                "description": {"$regex": search_term, "$options": "i"}
+            })
+
+            products_category = ecommerce_functions.get_product_collection().find({
+                "category": {"$regex": search_term, "$options": "i"}
+            })
+
+            # Unir y convertir los resultados a la estructura ProductResult
+            products = set()
+            for products_list in [products_name, products_description, products_category]:
+                for product in products_list:
+                    products.add(product)
+
+            # Convertir los resultados a la estructura ProductResult
+            products_serialized = [
+                etienda_serializers.ProductResult(
+                    id=str(prod['_id']),
+                    title=prod['title'],
+                    description=prod['description'],
+                    category=prod['category'],
+                    # Otros campos que desees incluir
+                ).dict() for prod in products
+            ]
+
+            logger.debug(f'Products: {products_serialized}')
+
+            # Turn to Json
+            products_json = dumps(products_serialized)
+            logger.debug(f'Products: {products_json}')
+            return products_json, 200, {"Content-Type": "application/json"}
+
+        except Exception as err:
+            logger.error(f'Something went wrong while getting the product: {err}')
+            return {"message": "Internal Server Error"}, 500, {"Content-Type": "application/json"}
+
     # Get products with ids between two numbers
     @http_get("/product", response={200: etienda_serializers.ProductSerializer,
                                     404: etienda_serializers.MessageSerializer})
@@ -73,7 +121,7 @@ class ProductAPI:
 
         try:
             # Turn id into a string for mongodb to accept it
-            
+
             inserted = ecommerce_functions.get_product_collection().insert_one(product.dict())
             logger.debug(f'Creating product: {inserted.inserted_id}')
             db_product = ecommerce_functions.get_product_collection().find_one(
@@ -147,7 +195,8 @@ class ProductAPI:
             # Update the product's rating in the database
             updated_product = ecommerce_functions.get_product_collection().update_one(
                 {"_id": ObjectId(id)},
-                {"$set": {"rating.count": new_count, "rating.rate": new_rate, "rating.user_rate": user_rate}}
+                {"$set": {"rating.count": new_count, "rating.rate": new_rate,
+                          "rating.user_rate": user_rate}}
             )
 
             if updated_product.modified_count > 0:
