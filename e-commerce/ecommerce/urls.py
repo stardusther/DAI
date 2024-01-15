@@ -32,7 +32,7 @@ urlpatterns = [
     path("dump_database/", ecommerce_functions.truncate_database, name="dump_database"),
     path("fill_database/", ecommerce_functions.import_products, name="fill_database"),
     path('admin/', admin.site.urls),
-    # path("user/", include("django.contrib.auth.urls")),  # Auth URLS
+    path('accounts/', include('allauth.urls')),  # Allouth URLS
     path("api/", api.urls),  # Api URLS
 ]
 

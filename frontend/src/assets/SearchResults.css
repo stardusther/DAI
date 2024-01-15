@@ -1,0 +1,26 @@
+.category{
+    font-weight: bold;
+}
+
+#resultado-title{
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+#result-div{
+    margin: 3em 1em;
+}
+
+#no-results{
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 1em;
+}
+
+#no-result-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}

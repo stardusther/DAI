@@ -43,8 +43,8 @@ class MessageSerializer(Schema):
     message: str
 
 
-class ProductResult(Schema):
-    id: str
+class ProductResultSerializer(Schema):
+    _id: str
     title: str
     description: str
     category: str

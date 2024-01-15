@@ -1,4 +1,5 @@
 import logging
+from itertools import chain
 
 from ninja_extra import NinjaExtraAPI, api_controller, http_get, http_post, http_put, http_delete, \
     http_patch
@@ -10,6 +11,7 @@ from bson.json_util import dumps
 
 # App imports
 from etienda import serializers as etienda_serializers
+from etienda import views as etienda_views
 from ecommerce import functions as ecommerce_functions
 from ecommerce import views as ecommerce_views
 
@@ -48,52 +50,32 @@ class ProductAPI:
                 return etienda_serializers.ProductSerializer(**db_product)
         except Exception as err:
             logger.error(f'Something went wrong while getting the product: {err}')
-            return {"message": "Product not created"}, 404
+            return {"message": "Product not found"}, 404
 
     # Filter products
-    @api.get("/product/filter", response={200: List[etienda_serializers.ProductResult], 404: dict})
+    @api.get("/product/filter", response={200: List[etienda_serializers.ProductResultSerializer],
+                                          500: etienda_serializers.MessageSerializer})
     def filter_product(request, search_term: str = None):
+        """Filter products by name, description and category"""
         try:
-            # Lógica para filtrar productos
-            products_name = ecommerce_functions.get_product_collection().find({
-                "title": {"$regex": search_term, "$options": "i"}
-            })
+            products_name = etienda_views.filter_product(None, search_term, None, None, None, None, None, None)
+            products_description = etienda_views.filter_product(None, None, None, None, search_term, None, None, None)
+            products_category = etienda_views.filter_product(None, None, None, None, None, search_term, None, None)
 
-            products_description = ecommerce_functions.get_product_collection().find({
-                "description": {"$regex": search_term, "$options": "i"}
-            })
+            # Mix all products into one list
+            all_products = list(chain(products_name, products_description, products_category))
 
-            products_category = ecommerce_functions.get_product_collection().find({
-                "category": {"$regex": search_term, "$options": "i"}
-            })
+            # Get products without duplicates
+            # Use Pydantic for serialization
+            unique_products_set = {product['_id']: etienda_serializers.ProductResultSerializer(**product) for product in
+                                   all_products}.values()
+            unique_products_list = list(unique_products_set)
 
-            # Unir y convertir los resultados a la estructura ProductResult
-            products = set()
-            for products_list in [products_name, products_description, products_category]:
-                for product in products_list:
-                    products.add(product)
-
-            # Convertir los resultados a la estructura ProductResult
-            products_serialized = [
-                etienda_serializers.ProductResult(
-                    id=str(prod['_id']),
-                    title=prod['title'],
-                    description=prod['description'],
-                    category=prod['category'],
-                    # Otros campos que desees incluir
-                ).dict() for prod in products
-            ]
-
-            logger.debug(f'Products: {products_serialized}')
-
-            # Turn to Json
-            products_json = dumps(products_serialized)
-            logger.debug(f'Products: {products_json}')
-            return products_json, 200, {"Content-Type": "application/json"}
+            return unique_products_list
 
         except Exception as err:
-            logger.error(f'Something went wrong while getting the product: {err}')
-            return {"message": "Internal Server Error"}, 500, {"Content-Type": "application/json"}
+            logger.error(f'Something went wrong while getting the products: {err}')
+            return {"message": "Internal Server Error"}, 500
 
     # Get products with ids between two numbers
     @http_get("/product", response={200: etienda_serializers.ProductSerializer,

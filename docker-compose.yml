@@ -16,3 +16,15 @@ services:
       - 27017:27017
     volumes:
       - ./data:/data/db
+
+#  frontend:
+#    build: ./frontend
+#    volumes:
+#      - ./frontend:/frontend
+#    ports:
+#      - 4200:4200
+#    depends_on:
+#      - app
+#    command: npm start
+#    environment:
+#      - NODE_ENV=development
