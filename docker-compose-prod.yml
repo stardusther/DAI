@@ -6,7 +6,7 @@ services:
     volumes:
       - static_volume:/e-commerce/static
     ports:
-      - "80:80"
+      - 80:80
     depends_on:
       - app
 
