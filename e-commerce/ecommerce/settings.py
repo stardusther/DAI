@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,15 +21,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2$hpb9xtstz#lc%swbw5=$(=)afn$j3nr9d7t1_ao0zg!mx7$#'
+SECRET_KEY = 'django-insecure-2$hpb9xtstz#lc%swbw5=$(=)afn$j3nr9d7t1_ao0zg!mx7$#'  # in .env-prod file
 
+# https://docs.djangoproject.com/en/dev/ref/settings/#debug
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
-    ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', 'localhost']
+    ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'app']
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+    ]
 else:
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['*', 'app']
+    CSRF_COOKIE_DOMAIN = None
+    STATIC_ROOT = BASE_DIR / 'static'
 
 
 # Application definition
@@ -135,12 +142,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-if DEBUG:
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "static"),
-    ]
-else:
-    STATIC_ROOT = BASE_DIR / 'static'
 
 # Media files ---------------------------------------------------------------
 
@@ -226,5 +227,10 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [  # URLs allowed to make requests to the API
     'http://localhost:4200',
     'http://localhost:5173',
+    'http://localhost:8000',
+    'http://localhost'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost'
+]

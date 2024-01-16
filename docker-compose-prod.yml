@@ -1,26 +1,28 @@
 # docker-compose.yml
 services:
   nginx:
+    restart: always
     build: ./nginx
     volumes:
-      - ./nginx/static:/var/www/static
+      - static_volume:/e-commerce/static
     ports:
       - "80:80"
     depends_on:
       - app
 
-
   app:
     build: ./e-commerce
     volumes:
       - ./e-commerce:/e-commerce
+      - static_volume:/e-commerce/static
+      - media_volume:/e-commerce/media
     env_file:
       - .env-prod
-    ports:
+    expose:
       - 8000:8000
     depends_on:
       - mongo
-    command: gunicorn Ecommerce.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:8000
 
   mongo:
     image: mongo:6.0
@@ -28,3 +30,8 @@ services:
       - ./data:/data/db
     ports:
       - 27017:27017
+
+
+volumes:
+    static_volume:
+    media_volume:
