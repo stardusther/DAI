@@ -10,7 +10,7 @@ function App() {
 
   const fetchProducts = async (searchTerm) => {
     try {
-      const url = `http://localhost:8000/api/product/filter?search_term=${searchTerm}`;
+      const url = `http://localhost:80/api/product/filter?search_term=${searchTerm}`;
       const response = await fetch(url);
       const data = await response.json();
       setProducts(data);

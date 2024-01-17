@@ -114,7 +114,8 @@ def filter_request(request):
             products.append(prod)
 
     # Render products
-    return render(request, 'products.html', context={'products': products})
+    return render(request, 'products.html', context={'products': products,
+                                                     'categorias': get_categories()})
 
 
 def filter_product(_id, title, min_price, max_price, description, category, score, order):
@@ -137,7 +138,7 @@ def filter_product(_id, title, min_price, max_price, description, category, scor
         query["id"] = _id
 
     if title is not None:
-        query["title"] = {'$regex': f'{title}', "$options": 'i'}
+        query["title"] = {'$regex': title, "$options": 'i'}
 
     if min_price is not None:
         query["price"] = {"$gte": min_price}
@@ -149,7 +150,7 @@ def filter_product(_id, title, min_price, max_price, description, category, scor
         query["rating.rate"] = {"$gte": score}
 
     if description is not None:
-        query["description"] = {'$regex': f'{description}', "$options": 'i'}
+        query["description"] = {'$regex': description, "$options": 'i'}
 
     if category is not None:
         query["category"] = {'$regex': f'^{category}', "$options": 'i'}
